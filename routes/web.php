@@ -19,9 +19,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('company/register', [CompanyRegister::class, 'render']);
-Route::get('company/login', [CompanyLogin::class, 'render']);
+Route::group(['middleware' => ['guest']], function () {
+    Route::get('company/register', [CompanyRegister::class, 'render']);
+    Route::get('company/login', [CompanyLogin::class, 'render']);
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+});
+
+
+Route::middleware(['auth:sanctum', 'type:employee', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
+})->name('dashboard');
+
+Route::middleware(['auth:sanctum', 'type:company', 'verified'])->get('company/dashboard', function () {
+    return view('company.dashboard');
 })->name('dashboard');
