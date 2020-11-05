@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Livewire\CompanyLogin;
 use App\Http\Livewire\CompanyRegister;
 use Illuminate\Support\Facades\Route;
@@ -15,9 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index']);
 
 Route::group(['middleware' => ['guest']], function () {
     Route::get('company/register', [CompanyRegister::class, 'render']);
